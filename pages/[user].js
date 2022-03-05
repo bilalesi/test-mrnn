@@ -3,7 +3,7 @@ import React from 'react'
 
 export const getServerSideProps = async ({ params }) => {
     const user = params.user;
-    let response = await fetch(`/api/user?uri=${user}`, {
+    let response = await fetch(`${process.env.API_URI}/api/user?uri=${user}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
