@@ -14,8 +14,10 @@ handler.post(async (req, res) => {
         if (!user) {
             res.status(404).json({ done: false, message: 'User not found', code: 'user_not_found' });
         }
-        let registrationToken = user.firebase_token ||
-            "dESeTO0NQVesFq5k1fFq2g:APA91bEhm2PK_6qaBbYDVvE9gZGAqMa28DsW7kG9b8aOJOcwqxa6n1vM1-4HOAPSLt7Hgr5kK7FT3eEsG86KcYHvBpdaPZBHjhHAXo6ApRZ5Qm3PAfi_wMo7KkflmGW8MPPRem5Qq7x1";
+        let registrationToken =  "cAAbxTlJTe2BVCDdaQFebE:APA91bFdMiQjmm1MjsnnVl1cYbumYXRSVOQwqk6MChFXuj97dG7V6v1QR85YMaCeDQp9F7kYJsTZ0g-U_hIpBJl2Zzyx5ZD-jDlbUeb7LW656s1rsWABVXVWGw8uARFrkMuuEZTqYDZ5";
+        // user.firebase_token ||
+            // "dESeTO0NQVesFq5k1fFq2g:APA91bEhm2PK_6qaBbYDVvE9gZGAqMa28DsW7kG9b8aOJOcwqxa6n1vM1-4HOAPSLt7Hgr5kK7FT3eEsG86KcYHvBpdaPZBHjhHAXo6ApRZ5Qm3PAfi_wMo7KkflmGW8MPPRem5Qq7x1";
+        console.log("registrationToken ## ", registrationToken);
         if(!registrationToken){
             res.status(404).json({ done: false, message: 'User not yet registered', code: 'user_not_registered' });
         }

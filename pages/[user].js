@@ -1,6 +1,6 @@
 
 import React from 'react'
-
+import gererate_firebase_deeplink from '../lib/generate-firebase-deeplink';
 export const getServerSideProps = async ({ params }) => {
     const user = params.user;
     let response = await fetch(`${process.env.API_URI}/api/user?uri=${user}`, {
@@ -23,9 +23,8 @@ export const getServerSideProps = async ({ params }) => {
 export default function User({ exist, profile }) {
     let [isPushSent, setIsPushSent] = React.useState(false);
     let [pushError, setPushError] = React.useState("");
+    const [deepLink, setDeepLink] = React.useState("");
     const sendPushNotification = async (e) => {
-        console.log("sendPushNotification", e);
-        console.log("profile", `/api/push`);
         e.preventDefault();
         let response = await fetch(`/api/push`, {
             method: 'POST',
@@ -37,13 +36,27 @@ export default function User({ exist, profile }) {
             }),
         });
         response = await response.json();
-        console.log("PUSH response", response);
         if(response.done){
             setIsPushSent(true);
         } else {
             setIsPushSent(false);
             setPushError(response.error);
         }
+    }
+    const generateDeepLink = async (e) => {
+        e.preventDefault();
+        let response = await fetch('/api/deep-linking', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                uri: profile.uri,
+            }),
+        })
+        response = await response.json();
+        console.log("response =>>>", response);
+        setDeepLink(response.deeplink);
     }
     if (!exist) {
         return <div>User not found</div>
@@ -52,9 +65,14 @@ export default function User({ exist, profile }) {
         <div className='h-screen flex flex-col justify-center items-center'>
             <div>This page is for <strong>{profile.name}</strong></div>
             <div className='text-sm'>that has phone number <strong>{profile.phone}</strong></div>
-            <button type='button' className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-3 mt-6'>
+            <button 
+                type='button' 
+                className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-3 mt-6'
+                onClick={generateDeepLink}
+            >
                 <span>Share</span>
             </button>
+            {deepLink && <a href={deepLink} className='text-sm p-4 text-red-600'>Deep Link</a>}
             <button
                 className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
                 onClick={sendPushNotification}
