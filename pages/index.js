@@ -55,8 +55,8 @@ export default function Index() {
                 }
             </div>
             <div className='sticky top-20 flex flex-col items-start p-20 gap-1'>
-                { users.map(item => <Link href={`/${item.uri}`}>
-                    <div className='flex flex-col p-10 w-full bg-gray-100 hover:bg-blue-100 cursor-pointer rounded-md'>
+                { users.length > 0 && users.map(item => <Link href={`/${item.uri}`}>
+                    <div key={item._id} className='flex flex-col p-10 w-full bg-gray-100 hover:bg-blue-100 cursor-pointer rounded-md'>
                         <div>name: { item.name }</div>
                         <div>phone: { item.phone}</div>
                         <div>uri: { item.uri }</div>
